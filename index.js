@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
 const sessions = require("express-session");
+const MongoStore = require("connect-mongo");
 const cors = require("cors");
 
 dotenv.config();
@@ -27,24 +28,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(
+  sessions({
+    secret: process.env.SESSIONSECRET,
+    name: "verrboSessionId",
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DBHOST }),
+    resave: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+      httpOnly: true,
+    },
+  })
+);
+
+app.use(
   cors({
     origin: allowedOrigins,
     credentials: true, // if you're using cookies/sessions
   })
 );
 
-app.use(
-  sessions({
-    secret: process.env.SESSIONSECRET,
-    name: "verrboSessionId",
-    saveUninitialized: false,
-    resave: false,
-    cookie: {
-      secure: true,
-      sameSite: "none",
-    },
-  })
-);
+app.set("trust proxy", 1);
 
 app.use("/", videosRouter);
 app.use("/", writingRouter);
