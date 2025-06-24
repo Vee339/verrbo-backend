@@ -11,13 +11,6 @@ const allowedOrigins = [
   "http://localhost:5173", // for local dev
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true, // if you're using cookies/sessions
-  })
-);
-
 const usersRouter = require("./modules/users/router");
 const videosRouter = require("./modules/listening_videos/router");
 const writingRouter = require("./modules/writing_topics/router");
@@ -32,6 +25,13 @@ const port = process.env.PORT || "8888";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true, // if you're using cookies/sessions
+  })
+);
 
 app.use(
   sessions({
