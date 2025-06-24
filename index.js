@@ -42,7 +42,9 @@ app.use(
     origin: function (origin, callback) {
       const allowed = [
         "https://veerpalkaur.com",
+        "https://www.veerpalkaur.com",
         "https://veerpalkaur.com/verrbo",
+        "https://www.veerpalkaur.com/verrbo",
         "http://localhost:5173",
       ];
       if (!origin || allowed.includes(origin)) {
