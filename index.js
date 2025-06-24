@@ -7,11 +7,6 @@ const cors = require("cors");
 
 dotenv.config();
 
-const allowedOrigins = [
-  "https://veerpalkaur.com",
-  "http://localhost:5173", // for local dev
-];
-
 const usersRouter = require("./modules/users/router");
 const videosRouter = require("./modules/listening_videos/router");
 const writingRouter = require("./modules/writing_topics/router");
@@ -44,8 +39,19 @@ app.use(
 
 app.use(
   cors({
-    origin: allowedOrigins,
-    credentials: true, // if you're using cookies/sessions
+    origin: function (origin, callback) {
+      const allowed = [
+        "https://veerpalkaur.com",
+        "https://veerpalkaur.com/verrbo",
+        "http://localhost:5173",
+      ];
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 
