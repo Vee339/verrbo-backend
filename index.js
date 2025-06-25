@@ -13,6 +13,7 @@ const writingRouter = require("./modules/writing_topics/router");
 const speakingRouter = require("./modules/speaking_topics/router");
 const readingRouter = require("./modules/reading_articles/router");
 const storiesRouter = require("./modules/short_stories/router");
+const journalRouter = require("./modules/journal_entries/router");
 
 const userWritingsDb = require("./modules/user_writings/db");
 
@@ -65,6 +66,7 @@ app.use("/", speakingRouter);
 app.use("/", readingRouter);
 app.use("/", storiesRouter);
 app.use("/", usersRouter);
+app.use("/", journalRouter);
 
 app.get("/", async (req, res) => {
   res.send("This is the test command.");
