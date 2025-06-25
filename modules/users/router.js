@@ -48,6 +48,7 @@ router.post("/api/user/logout", (req, res) => {
 router.get("/api/user/session", (req, res) => {
   if (req.session.userId) {
     res.status(200).json({
+      userId: req.session.userId,
       loggedIn: true,
       username: req.session.username,
       role: req.session.role,
