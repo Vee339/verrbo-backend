@@ -14,8 +14,7 @@ const speakingRouter = require("./modules/speaking_topics/router");
 const readingRouter = require("./modules/reading_articles/router");
 const storiesRouter = require("./modules/short_stories/router");
 const journalRouter = require("./modules/journal_entries/router");
-
-const userWritingsDb = require("./modules/user_writings/db");
+const writingsRouter = require("./modules/user_writings/router");
 
 const app = express();
 const port = process.env.PORT || "8888";
@@ -67,24 +66,10 @@ app.use("/", readingRouter);
 app.use("/", storiesRouter);
 app.use("/", usersRouter);
 app.use("/", journalRouter);
+app.use("/", writingsRouter);
 
 app.get("/", async (req, res) => {
   res.send("This is the test command.");
-});
-
-app.post("/api/adduserwriting", async (req, res) => {
-  const userId = "68463d32a52beee297cb0ce2";
-  const topicId = req.body.topic_id;
-  const content = req.body.writing_content;
-  const submitted_at = new Date();
-  const feedback = "Need some improvement in Grammar";
-  await userWritingsDb.addUserWriting(
-    userId,
-    topicId,
-    content,
-    submitted_at,
-    feedback
-  );
 });
 
 app.listen(port, () => {

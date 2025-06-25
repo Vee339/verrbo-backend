@@ -22,19 +22,14 @@ async function connect() {
   await mongoose.connect(dbUrl);
 }
 
-async function addUserWriting(
-  userId,
-  topicId,
-  content,
-  submissionDate,
-  feedback
-) {
+async function addUserWriting(userId, topicId, content, feedback) {
   await connect();
+  const currentDate = Date();
   const newWriting = new UserWriting({
     user_id: new ObjectId(userId),
     topic_id: new ObjectId(topicId),
     content: content,
-    submitted_at: submissionDate,
+    submitted_at: currentDate,
     feedback: feedback,
   });
 
